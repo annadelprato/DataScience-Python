@@ -41,7 +41,6 @@ cur = con.cursor()
 
 with con:
     cur.execute('DROP TABLE IF EXISTS citibike_reference')
-
     cur.execute('CREATE TABLE citibike_reference (id INT PRIMARY KEY, totalDocks INT, city TEXT, altitude INT, stAddress2 TEXT, longitude NUMERIC, postalCode TEXT, testStation TEXT, stAddress1 TEXT, stationName TEXT, landMark TEXT, latitude NUMERIC, location TEXT )')
 
  #a prepared SQL statement we're going to execute over and over again
@@ -80,13 +79,11 @@ exec_time = parse(r.json()['executionTime'])
 #ok to this point
 #problem with %s strftime function - other values i.e., %Y, %S etc and the program runs - need help here.
 
-
 with con:
     #cur.execute('INSERT INTO available_bikes (execution_time) VALUES (?)', (exec_time.strftime("%s"),))
-
-    cur.execute('INSERT INTO available_bikes (execution_time) VALUES (?)', (exec_time.strftime("%H" "%M" "%S" + "0000"),))
-    #cur.execute('INSERT INTO available_bikes (execution_time) VALUES (?)', (exec_time.strftime("%M"),))
- 
+    #cur.execute('INSERT INTO available_bikes (execution_time) VALUES (?)', (exec_time.strftime("%Y" "%m" "%d" "%H" "%M" "%S" + "0000"),))
+    cur.execute('INSERT INTO available_bikes (execution_time) VALUES (?)', (exec_time.strftime("%Y" "%m" "%d" "%H" "%M" "%S"),))
+    #cur.execute('INSERT INTO available_bikes (execution_time) VALUES (?)', (exec_time.strftime("%M"),)) 
 
 
 (id_bikes) = collections.defaultdict(int) #defaultdict to store available bikes by station
@@ -99,12 +96,14 @@ for station in r.json()['stationBeanList']:
 #iterate through the defaultdict to update the values in the database
 with con:
     for k, v in id_bikes.iteritems():
+        
         #cur.execute("UPDATE available_bikes SET _" + str(k) + " = " + str(v) + " WHERE execution_time = " + exec_time.strftime("%s") + ";")
-        
-        cur.execute("UPDATE available_bikes SET _" + str(k) + " = " + str(v) + " WHERE execution_time = " + exec_time.strftime("%H" "%M" "%S" + "0000") + ";")
-        
+        cur.execute("UPDATE available_bikes SET _" + str(k) + " = " + str(v) + " WHERE execution_time = " + exec_time.strftime("%Y" "%m" "%d" "%H" "%M" "%S") + ";")
+        #cur.execute("UPDATE available_bikes SET _" + str(k) + " = " + str(v) + " WHERE execution_time = " + exec_time.strftime("%Y" "%m" "%d" "%H" "%M" "%S" + "0000") + ";")
         #cur.execute("UPDATE available_bikes SET _" + str(k) + " = " + str(v) + " WHERE execution_time = " + exec_time.strftime("%M") + ";")
 
-#print exec_time.strftime("%H" "%M" "%S" + "0000")
+print exec_time.strftime("%Y" "%m" "%d" "%H" "%M" "%S")
 
-#The %s epoch time given in the instruction does not work perhaps due to environment but also it's not supported. What to do?
+
+#The %s epoch time given in the instruction does not work perhaps due to environment but also it's not supported. What to do? Does this time structure work for this exercise?
+# How to delete the table and start again?

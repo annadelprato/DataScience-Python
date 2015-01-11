@@ -40,7 +40,7 @@ fig = sm.graphics.tsa.plot_pacf(loan_count_summary)
 plt.show()
 
 #notes
-#notes: data is not stationary - large fluctuations and increasing trend observed
+#data is not stationary - large fluctuations and increasing trend observed
 # data needs to be "differenced" before proceeding i.e., subtraction of the current observations from previous ones. Differencing removes the trend.
 
 #syntax needed to continue with modeling

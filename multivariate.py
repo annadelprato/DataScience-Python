@@ -26,7 +26,7 @@ print df['home_ownership'][0:50]
 df.to_csv('LoanStatsclean.csv')
 
 
-# Modeling data
+# Modeling 
 
 #import pandas as pd
 #import matplotlib.pyplot as plt
@@ -34,7 +34,6 @@ df.to_csv('LoanStatsclean.csv')
 #import statsmodels.api as sm
 
 df=pd.read_csv('LoanStatsclean.csv')
-
 		
 
 #plot histogram

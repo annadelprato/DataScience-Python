@@ -29,3 +29,5 @@ print 'Coefficients: ', f.params[0:2]
 print 'Intercept: ', f.params[2]
 print 'P-Values: ', f.pvalues
 print 'R-Squared: ', f.rsquared
+
+#script runs different intercept value

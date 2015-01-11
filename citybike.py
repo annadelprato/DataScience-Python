@@ -69,7 +69,7 @@ with con:
     
 
 # a package with datetime objects
-import time
+from time import gmtime, strftime
 
 # a package for parsing a string into a Python datetime object
 from dateutil.parser import parse 
@@ -81,18 +81,29 @@ exec_time = parse(r.json()['executionTime'])
 #ok to this point
 #problem with %s strftime function - other values i.e., %Y, %S etc and the program runs - need help here.
 
+
 with con:
-    cur.execute('INSERT INTO available_bikes (execution_time) VALUES (?)', (exec_time.strftime('%s'),))
+    #cur.execute('INSERT INTO available_bikes (execution_time) VALUES (?)', (exec_time.strftime("%s"),))
+
+    #cur.execute('INSERT INTO available_bikes (execution_time) VALUES (?)', (exec_time.strftime("%M"),))
+ 
+    cur.execute('INSERT INTO available_bikes (execution_time) VALUES (?)', (exec_time.strftime("%H, %M, %S +0000", time.localtime(epoch)))
 
 
 (id_bikes) = collections.defaultdict(int) #defaultdict to store available bikes by station
 
 #loop through the stations in the station list
 
-for station in r.json()['stationBeanList']:
-    id_bikes[station['id']] = station['availableBikes']
+for station in (r.json()['stationBeanList'])
+id_bikes[station['id']] = station['availableBikes']
 
 #iterate through the defaultdict to update the values in the database
 with con:
     for k, v in id_bikes.iteritems():
-        cur.execute("UPDATE available_bikes SET _" + str(k) + " = " + str(v) + " WHERE execution_time = " + exec_time.strftime('%s') + ";")
+    #cur.execute("UPDATE available_bikes SET _" + str(k) + " = " + str(v) + " WHERE execution_time = " + exec_time.strftime("%s") + ";")
+
+    cur.execute("UPDATE available_bikes SET _" + str(k) + " = " + str(v) + " WHERE execution_time = " + exec_time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.localtime(epoch) + ";")
+        
+        #cur.execute("UPDATE available_bikes SET _" + str(k) + " = " + str(v) + " WHERE execution_time = " + exec_time.strftime("%M") + ";")
+
+
